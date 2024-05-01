@@ -1,0 +1,53 @@
+﻿@* @page "/TodoCreate/Create"
+
+<EditForm Model="@newTodo" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+    Description: <InputText @bind-Value="@newTodo.Description"></InputText>
+    Is Completed: <InputCheckbox @bind-Value="@newTodo.IsCompleted"></InputCheckbox>
+    Due by: <InputDate @bind-Value="@newTodo.DueDate"></InputDate>
+
+    <button class="btn btn-primary">Add</button>
+
+
+</EditForm>
+
+@code {
+    private TodoItem newTodo = new TodoItem();
+    [Inject] public NavigationManager NavigationManager { get; set; }
+    [Inject] public IDbContextFactory<TodoContext> factory { get; set; }
+    private async Task HandleValidSubmit()
+    {
+        var db = factory.CreateDbContext();
+        db.Items.Add(newTodo);
+        db.SaveChanges();
+        NavigationManager.NavigateTo("/todoList");
+
+    }
+} *@
+@rendermode InteractiveServer
+
+@page "/TodoList/Create"
+<EditForm Model="@newTodo" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+    Description: <InputText @bind-Value="@newTodo.Description"></InputText>
+    Is Completed: <InputCheckbox @bind-Value="@newTodo.IsCompleted"></InputCheckbox>
+    Due by: <InputDate @bind-Value="@newTodo.DueDate"></InputDate>
+
+    <button class="btn btn-primary">Add</button>
+
+
+</EditForm>
+
+@code {
+    private TodoItem newTodo = new TodoItem();
+    [Inject] public NavigationManager NavigationManager { get; set; }
+    [Inject] public IDbContextFactory<TodoContext> factory { get; set; }
+    private async Task HandleValidSubmit()
+    {
+        var db = factory.CreateDbContext();
+        db.Items.Add(newTodo);
+        db.SaveChanges();
+        NavigationManager.NavigateTo("/TodoList");
+
+    }
+}
